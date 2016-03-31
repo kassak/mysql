@@ -22,4 +22,7 @@ for version in "${versions[@]}"; do
 			s/^(ENV MYSQL_VERSION) .*/\1 '"$fullVersion"'/
 		' "$version/Dockerfile"
 	)
+	sed -i "s|ENTRYPOINT|\n$(sed '{:q;N;s/\n/\\n/g;t q}' < ssl-stuff.txt)\nENTRYPOINT|" "$version/Dockerfile"
+	sed -i "s|\s*mysql -uroot|\necho -e \"$(sed '{:q;N;s/\n/\\\\n/g;t q}' < init.sql)\" >> \"\$tempSqlFile\" ;\nmysql -uroot|" "$version/docker-entrypoint.sh"
+	cp ./ca.pem ./server-cert.pem ./server-key.pem ./ssl.cnf ./$version
 done

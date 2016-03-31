@@ -1,0 +1,5 @@
+ADD ./ssl.cnf /etc/mysql/conf.d
+ADD ./ca.pem /etc/mysql/ca.pem
+ADD ./server-cert.pem /etc/mysql/server-cert.pem
+ADD ./server-key.pem /etc/mysql/server-key.pem
+
